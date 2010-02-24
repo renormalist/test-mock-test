@@ -30,7 +30,8 @@ CHECK {
                         my $mock = set_prototype(sub { &{$sub} }, prototype \&$glob);
                         {
                                 no warnings 'redefine';
-                                *{"main::".$sub} = $mock;
+                                *{$module."::".$sub} = $mock;
+                                *{"main::".$sub}     = $mock; # TODO: do this only for imported/existing subs
                         }
                 }
         }
