@@ -1,36 +1,40 @@
 package Test::Mock::AllTestsOk;
 
+use 5.006001;
+
+$VERSION = 0.01;
+
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+use Carp;
+use Scalar::Util 1.11 'set_prototype';
+use Symbol qw/ qualify_to_ref qualify /;
 
-# use modules early so mocking overwrites what's loaded
-# use eval to not worry about not existing modules.
-# eval "use Test::More";
-# eval "use Test::Most";
-# eval "use Test::Deep";
-
-use Test::MockClass qw{Test::More};
-
-use Scalar::Util 'set_prototype';
+my %mocks = (
+             "Test::More" => [ qw( ok ) ],
+            );
 
 sub ok ($;$) {
         my( $test, $name ) = @_;
         my $tb = Test::More->builder;
         return $tb->ok( 1, $name );
-};
-
-BEGIN {
-        my $mockClass = Test::MockClass->new('Test::More');
-
-        use Test::More;
-        my $orig = \&Test::More::ok;
-
-        my $ok1 = set_prototype(\&ok, prototype $orig);
-        $mockClass->addMethod('ok', \&ok1);
 }
 
+CHECK {
+        no strict "refs";
+
+        foreach my $module (keys %mocks) {
+                foreach my $sub (@{$mocks{$module}}) {
+                        my $glob = qualify_to_ref($sub => $module);
+                        my $mock = set_prototype(sub { &{$sub} }, prototype \&$glob);
+                        {
+                                no warnings 'redefine';
+                                *{"main::".$sub} = $mock;
+                        }
+                }
+        }
+}
 
 1;
 
@@ -40,7 +44,7 @@ __END__
 
 Test::Mock::AllTestsOk - Mock all testcode to do nothing.
 
-=head ABOUT
+=head1 ABOUT
 
 This module mocks all typical test function from modules
 
