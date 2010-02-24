@@ -3,7 +3,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More tests => 12;
 
 TODO: {
         local $TODO = "We will we will mock you!";
@@ -19,5 +19,11 @@ TODO: {
         Test::More::is("a", "b", "Test Six being not ok or mocked ok");
         is("a", "b");
         Test::More::is("a", "b");
+
+        # is
+        isnt("a", "a", "Test Five being not ok or mocked ok");
+        Test::More::isnt("a", "a", "Test Six being not ok or mocked ok");
+        isnt("a", "a");
+        Test::More::isnt("a", "a");
 
 }

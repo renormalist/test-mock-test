@@ -14,7 +14,7 @@ use Symbol qw/ qualify_to_ref qualify /;
 my %mocks = (
              "Test::More" => {
                               proto_S_S  => [qw( ok )],
-                              proto_SS_S => [qw( is )],
+                              proto_SS_S => [qw( is isnt )],
                              },
             );
 
@@ -28,7 +28,7 @@ CHECK {
         for my $module (keys %mocks) {
                 for my $mocksub (keys %{$mocks{$module}}) {
                         for my $sub (@{$mocks{$module}{$mocksub}}) {
-                                my $glob      = qualify_to_ref($sub => $module);
+                                my $glob          = qualify_to_ref($sub => $module);
                                 my $mocksub_proto = set_prototype(sub { &{$mocksub} }, prototype \&$glob);
                                 {
                                         no warnings 'redefine';
