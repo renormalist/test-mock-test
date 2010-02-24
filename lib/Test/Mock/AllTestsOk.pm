@@ -13,14 +13,37 @@ use Symbol qw/ qualify_to_ref qualify /;
 
 my %mocks = (
              "Test::More" => {
-                              proto_S_S  => [qw( ok )],
-                              proto_SS_S => [qw( is isnt )],
+                              proto_S_S   => [qw( ok )],
+                              proto_SS_S  => [qw( is isnt like unlike isa_ok )],
+                              proto_SSS_S => [qw( cmp_ok )],
+
+                              noproto_2   => [qw( is_deeply )],
+
+                              can_ok      => [qw( can_ok )],
+                              fail        => [qw( fail )],
+                              use_ok      => [qw( use_ok )],
+                              require_ok  => [qw( require_ok )],
+                             },
+             "Test::Deep" => {
+                              noproto_2   => [qw( cmp_bag )],
                              },
             );
 
-# the only difference is the prototype so we prepare a dummy per prototype
-sub proto_S_S  ($;$)  { my( undef, $name )        = @_; my $tb = Test::More->builder; return $tb->ok( 1, $name ); }
-sub proto_SS_S ($$;$) { my( undef, undef, $name ) = @_; my $tb = Test::More->builder; return $tb->ok( 1, $name ); }
+require Test::More;
+my $builder = Test::More->builder;
+sub proto_S_S   ($;$)   { $builder->ok( 1, $_[1] ); }
+sub proto_SS_S  ($$;$)  { $builder->ok( 1, $_[2] ); }
+sub proto_SSS_S ($$$;$) { $builder->ok( 1, $_[3] ); }
+sub fail        (;$)    { $builder->ok( 1, @_ ); }
+sub can_ok      ($@)    { $builder->ok( 1, "class->can(...)"); }
+sub use_ok      ($;@)   { $builder->ok( 1, "use ".$_[0].";" ); }
+sub require_ok  ($)     { $builder->ok( 1, "require ".$_[0].";" ); }
+sub noproto_2   ($$;$)  { $builder->ok( 1, $_[2] ); }
+sub new_ok {
+        my( undef, undef, $object_name ) = @_;
+        $object_name = "The object" unless defined $object_name;
+        $builder->ok( 1, $object_name );
+}
 
 CHECK {
         no strict "refs";
@@ -68,7 +91,7 @@ their test suites without the test overhead itself.
 The module executes mocking during load so you only need to use the
 module like this:
 
-    perl -MTest::Mock::AllTestsOk `which prove` t/*.t
+    perl -MTest::Mock::AllTestsOk t/sometest.t
 
 =head1 AUTHOR
 
