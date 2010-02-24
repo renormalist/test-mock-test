@@ -1,0 +1,53 @@
+Test-Mock-AllTestsOk
+
+This module mocks all typical test function from modules
+
+  Test::More
+  Test::Most
+  Test::Deep
+
+to always return ok. In particular this means their test functionality
+is skipped, so the overhead of the tests is dropped and reduced to
+only the function call overhead.
+
+You can use this to benchmark distribution by running the code from
+their test suites without the test overhead itself.
+
+INSTALLATION
+
+To install this module, run the following commands:
+
+	perl Makefile.PL
+	make
+	make test
+	make install
+
+SUPPORT AND DOCUMENTATION
+
+After installing, you can find documentation for this module with the
+perldoc command.
+
+    perldoc Test::Mock::AllTestsOk
+
+You can also look for information at:
+
+    RT, CPAN's request tracker
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Mock-AllTestsOk
+
+    AnnoCPAN, Annotated CPAN documentation
+        http://annocpan.org/dist/Test-Mock-AllTestsOk
+
+    CPAN Ratings
+        http://cpanratings.perl.org/d/Test-Mock-AllTestsOk
+
+    Search CPAN
+        http://search.cpan.org/dist/Test-Mock-AllTestsOk/
+
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2010 Steffen Schwigon
+
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
