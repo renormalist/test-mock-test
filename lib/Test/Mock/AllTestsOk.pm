@@ -12,26 +12,29 @@ use Scalar::Util 1.11 'set_prototype';
 use Symbol qw/ qualify_to_ref qualify /;
 
 my %mocks = (
-             "Test::More" => [ qw( ok ) ],
+             "Test::More" => {
+                              proto_S_S  => [qw( ok )],
+                              proto_SS_S => [qw( is )],
+                             },
             );
 
-sub ok ($;$) {
-        my( $test, $name ) = @_;
-        my $tb = Test::More->builder;
-        return $tb->ok( 1, $name );
-}
+# the only difference is the prototype so we prepare a dummy per prototype
+sub proto_S_S  ($;$)  { my( undef, $name )        = @_; my $tb = Test::More->builder; return $tb->ok( 1, $name ); }
+sub proto_SS_S ($$;$) { my( undef, undef, $name ) = @_; my $tb = Test::More->builder; return $tb->ok( 1, $name ); }
 
 CHECK {
         no strict "refs";
 
-        foreach my $module (keys %mocks) {
-                foreach my $sub (@{$mocks{$module}}) {
-                        my $glob = qualify_to_ref($sub => $module);
-                        my $mock = set_prototype(sub { &{$sub} }, prototype \&$glob);
-                        {
-                                no warnings 'redefine';
-                                *{$module."::".$sub} = $mock;
-                                *{"main" ."::".$sub} = $mock; # TODO: do this only for imported/existing subs
+        for my $module (keys %mocks) {
+                for my $mocksub (keys %{$mocks{$module}}) {
+                        for my $sub (@{$mocks{$module}{$mocksub}}) {
+                                my $glob      = qualify_to_ref($sub => $module);
+                                my $mocksub_proto = set_prototype(sub { &{$mocksub} }, prototype \&$glob);
+                                {
+                                        no warnings 'redefine';
+                                        *{$module."::".$sub} = $mocksub_proto;
+                                        *{"main" ."::".$sub} = $mocksub_proto if *{"main" ."::".$sub};
+                                }
                         }
                 }
         }
