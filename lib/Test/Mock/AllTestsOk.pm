@@ -1,9 +1,36 @@
 package Test::Mock::AllTestsOk;
 
-use warnings;
 use strict;
+use warnings;
 
 our $VERSION = '0.01';
+
+# use modules early so mocking overwrites what's loaded
+# use eval to not worry about not existing modules.
+# eval "use Test::More";
+# eval "use Test::Most";
+# eval "use Test::Deep";
+
+use Test::MockClass qw{Test::More};
+
+use Scalar::Util 'set_prototype';
+
+sub ok ($;$) {
+        my( $test, $name ) = @_;
+        my $tb = Test::More->builder;
+        return $tb->ok( 1, $name );
+};
+
+BEGIN {
+        my $mockClass = Test::MockClass->new('Test::More');
+
+        use Test::More;
+        my $orig = \&Test::More::ok;
+
+        my $ok1 = set_prototype(\&ok, prototype $orig);
+        $mockClass->addMethod('ok', \&ok1);
+}
+
 
 1;
 
