@@ -31,7 +31,7 @@ CHECK {
                         {
                                 no warnings 'redefine';
                                 *{$module."::".$sub} = $mock;
-                                *{"main::".$sub}     = $mock; # TODO: do this only for imported/existing subs
+                                *{"main" ."::".$sub} = $mock; # TODO: do this only for imported/existing subs
                         }
                 }
         }
