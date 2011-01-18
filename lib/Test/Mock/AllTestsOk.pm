@@ -25,7 +25,7 @@ my %mocks = (
                               require_ok  => [qw( require_ok )],
                              },
              "Test::Deep" => {
-                              noproto_2   => [qw( cmp_bag )],
+                              noproto_2   => [qw( cmp_bag cmp_deeply )],
                              },
             );
 
