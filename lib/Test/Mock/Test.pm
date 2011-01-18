@@ -129,7 +129,7 @@ Test::Builder::ok() calls you can skip them this way:
 
 =head1 AUTHOR
 
-Steffen Schwigon, C<< <ss5 at renormalist.net> >>
+Steffen Schwigon, C<< <schwigon at cpan.org> >>
 
 =head1 BUGS
 
