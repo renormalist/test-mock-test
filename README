@@ -1,53 +1,66 @@
-Test-Mock-Test
+NAME
+    Test::Mock::Test - Mock Test::* code to succeed or do nothing.
 
-This module mocks all typical test function from modules
+ABOUT
+    This module mocks typical test function from modules
 
-  Test::More
-  Test::Most
-  Test::Deep
+      Test::More
+      Test::Most
+      Test::Deep
 
-to always return ok. In particular this means their test functionality
-is skipped, so the overhead of the tests is dropped and reduced to
-only the function call overhead.
+    to always return ok. In particular this means their test functionality
+    is skipped, so the overhead of the tests is dropped and reduced to only
+    the function call overhead.
 
-You can use this to benchmark distribution by running the code from
-their test suites without the test overhead itself.
+    You can use this, for instance, to reuse test scripts as benchmarks
+    where the overhead of the test code stands in the way of measuring the
+    actual code runtime. The ratio of that overhead, however, depends on the
+    test script, e.g. tests around Test::Deep with big data structures bring
+    them in.
 
-INSTALLATION
+SYNOPSIS
+    The module executes mocking during load so you can activate the module
+    from the outside, like this:
 
-To install this module, run the following commands:
+      perl -MTest::Mock::Test t/sometest.t
 
-	perl Makefile.PL
-	make
-	make test
-	make install
+    If you even want to avoid the overhead of the underlying
+    Test::Builder::ok() calls you can skip them this way:
 
-SUPPORT AND DOCUMENTATION
+      perl -MTest::Mock::Test=no_test_builder t/sometest.t
 
-After installing, you can find documentation for this module with the
-perldoc command.
+AUTHOR
+    Steffen Schwigon, `<ss5 at renormalist.net>'
 
-    perldoc Test::Mock::Test
+BUGS
+    Please report any bugs or feature requests to `bug-test-mock-test at
+    rt.cpan.org', or through the web interface at
+    http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Mock-Test. I will be
+    notified, and then you'll automatically be notified of progress on your
+    bug as I make changes.
 
-You can also look for information at:
+SUPPORT
+    You can find documentation for this module with the perldoc command.
 
-    RT, CPAN's request tracker
+        perldoc Test::Mock::Test
+
+    You can also look for information at:
+
+    * RT: CPAN's request tracker
         http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Mock-Test
 
-    AnnoCPAN, Annotated CPAN documentation
+    * AnnoCPAN: Annotated CPAN documentation
         http://annocpan.org/dist/Test-Mock-Test
 
-    CPAN Ratings
+    * CPAN Ratings
         http://cpanratings.perl.org/d/Test-Mock-Test
 
-    Search CPAN
+    * Search CPAN
         http://search.cpan.org/dist/Test-Mock-Test/
 
+COPYRIGHT & LICENSE
+    Copyright 2010-2011 Steffen Schwigon, all rights reserved.
 
-COPYRIGHT AND LICENCE
-
-Copyright (C) 2010 Steffen Schwigon
-
-This program is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
 

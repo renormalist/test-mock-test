@@ -94,11 +94,11 @@ __END__
 
 =head1 NAME
 
-Test::Mock::Test - Mock all testcode to do nothing.
+Test::Mock::Test - Mock Test::* code to succeed or do nothing.
 
 =head1 ABOUT
 
-This module mocks all typical test function from modules
+This module mocks typical test function from modules
 
   Test::More
   Test::Most
@@ -108,15 +108,24 @@ to always return ok. In particular this means their test functionality
 is skipped, so the overhead of the tests is dropped and reduced to
 only the function call overhead.
 
-You can use this to benchmark distribution by running the code from
-their test suites without the test overhead itself.
+You can use this, for instance, to reuse test scripts as benchmarks
+where the overhead of the test code stands in the way of measuring the
+actual code runtime. The ratio of that overhead, however, depends on
+the test script, e.g. tests around Test::Deep with big data structures
+bring them in.
 
 =head1 SYNOPSIS
 
-The module executes mocking during load so you only need to use the
-module like this:
+The module executes mocking during load so you can activate the module
+from the outside, like this:
 
-    perl -MTest::Mock::Test t/sometest.t
+  perl -MTest::Mock::Test t/sometest.t
+
+If you even want to avoid the overhead of the underlying
+Test::Builder::ok() calls you can skip them this way:
+
+  perl -MTest::Mock::Test=no_test_builder t/sometest.t
+
 
 =head1 AUTHOR
 
@@ -125,7 +134,7 @@ Steffen Schwigon, C<< <ss5 at renormalist.net> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-test-mock-alltestsok at rt.cpan.org>, or through the web
+C<bug-test-mock-test at rt.cpan.org>, or through the web
 interface at
 L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Mock-Test>.
 I will be notified, and then you'll automatically be notified of
@@ -164,12 +173,9 @@ L<http://search.cpan.org/dist/Test-Mock-Test/>
 =back
 
 
-=head1 ACKNOWLEDGEMENTS
-
-
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2010 Steffen Schwigon, all rights reserved.
+Copyright 2010-2011 Steffen Schwigon, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
