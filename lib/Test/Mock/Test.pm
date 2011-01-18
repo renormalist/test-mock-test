@@ -70,12 +70,6 @@ sub import {
 }
 
 
-sub new_ok {
-        my( undef, undef, $object_name ) = @_;
-        $object_name = "The object" unless defined $object_name;
-        $builder->ok( 1, $object_name );
-}
-
 CHECK {
         no strict "refs";
 
