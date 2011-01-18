@@ -11,6 +11,11 @@ use Carp;
 use Scalar::Util 1.11 'set_prototype';
 use Symbol qw/ qualify_to_ref qualify /;
 
+require Test::More;
+
+our $no_test_builder = 0;
+our $builder = Test::More->builder;
+
 my %mocks = (
              "Test::More" => {
                               proto_S_S   => [qw( ok )],
@@ -29,16 +34,42 @@ my %mocks = (
                              },
             );
 
-require Test::More;
-my $builder = Test::More->builder;
-sub proto_S_S   ($;$)   { $builder->ok( 1, $_[1] ); }
-sub proto_SS_S  ($$;$)  { $builder->ok( 1, $_[2] ); }
-sub proto_SSS_S ($$$;$) { $builder->ok( 1, $_[3] ); }
-sub fail        (;$)    { $builder->ok( 1, @_ ); }
-sub can_ok      ($@)    { $builder->ok( 1, "class->can(...)"); }
-sub use_ok      ($;@)   { $builder->ok( 1, "use ".$_[0].";" ); }
-sub require_ok  ($)     { $builder->ok( 1, "require ".$_[0].";" ); }
-sub noproto_2   ($$;$)  { $builder->ok( 1, $_[2] ); }
+sub import {
+        foreach (@_) {
+                $no_test_builder = 1 if /no_test_builder/;
+        }
+
+        ## no critic (ProhibitStringyEval)
+        ## needed for sub prototypes
+        if ($no_test_builder)
+        {
+                eval '
+                      sub proto_S_S   ($;$)   { 1 };
+                      sub proto_SS_S  ($$;$)  { 1 };
+                      sub proto_SSS_S ($$$;$) { 1 };
+                      sub fail        (;$)    { 1 };
+                      sub can_ok      ($@)    { 1 };
+                      sub use_ok      ($;@)   { 1 };
+                      sub require_ok  ($)     { 1 };
+                      sub noproto_2   ($$;$)  { 1 };
+                     ';
+        }
+        else
+        {
+                eval '
+                      sub proto_S_S   ($;$)   { $builder->ok( 1, $_[1] ) };
+                      sub proto_SS_S  ($$;$)  { $builder->ok( 1, $_[2] ) };
+                      sub proto_SSS_S ($$$;$) { $builder->ok( 1, $_[3] ) };
+                      sub fail        (;$)    { $builder->ok( 1, @_ ) };
+                      sub can_ok      ($@)    { $builder->ok( 1, "class->can(...)") };
+                      sub use_ok      ($;@)   { $builder->ok( 1, "use ".$_[0].";" ) };
+                      sub require_ok  ($)     { $builder->ok( 1, "require ".$_[0].";" ) };
+                      sub noproto_2   ($$;$)  { $builder->ok( 1, $_[2] ) };
+                     ';
+        }
+}
+
+
 sub new_ok {
         my( undef, undef, $object_name ) = @_;
         $object_name = "The object" unless defined $object_name;
