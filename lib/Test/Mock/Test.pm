@@ -1,4 +1,4 @@
-package Test::Mock::AllTestsOk;
+package Test::Mock::Test;
 
 use 5.006001;
 
@@ -100,7 +100,7 @@ __END__
 
 =head1 NAME
 
-Test::Mock::AllTestsOk - Mock all testcode to do nothing.
+Test::Mock::Test - Mock all testcode to do nothing.
 
 =head1 ABOUT
 
@@ -122,7 +122,7 @@ their test suites without the test overhead itself.
 The module executes mocking during load so you only need to use the
 module like this:
 
-    perl -MTest::Mock::AllTestsOk t/sometest.t
+    perl -MTest::Mock::Test t/sometest.t
 
 =head1 AUTHOR
 
@@ -133,7 +133,7 @@ Steffen Schwigon, C<< <ss5 at renormalist.net> >>
 Please report any bugs or feature requests to
 C<bug-test-mock-alltestsok at rt.cpan.org>, or through the web
 interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Mock-AllTestsOk>.
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Mock-Test>.
 I will be notified, and then you'll automatically be notified of
 progress on your bug as I make changes.
 
@@ -144,7 +144,7 @@ progress on your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Test::Mock::AllTestsOk
+    perldoc Test::Mock::Test
 
 
 You can also look for information at:
@@ -153,19 +153,19 @@ You can also look for information at:
 
 =item * RT: CPAN's request tracker
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Mock-AllTestsOk>
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Mock-Test>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/Test-Mock-AllTestsOk>
+L<http://annocpan.org/dist/Test-Mock-Test>
 
 =item * CPAN Ratings
 
-L<http://cpanratings.perl.org/d/Test-Mock-AllTestsOk>
+L<http://cpanratings.perl.org/d/Test-Mock-Test>
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/Test-Mock-AllTestsOk/>
+L<http://search.cpan.org/dist/Test-Mock-Test/>
 
 =back
 

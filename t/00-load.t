@@ -3,7 +3,7 @@
 use Test::More tests => 1;
 
 BEGIN {
-	use_ok( 'Test::Mock::AllTestsOk' );
+	use_ok( 'Test::Mock::Test' );
 }
 
-diag( "Testing Test::Mock::AllTestsOk $Test::Mock::AllTestsOk::VERSION, Perl $], $^X" );
+diag( "Testing Test::Mock::Test $Test::Mock::Test::VERSION, Perl $], $^X" );

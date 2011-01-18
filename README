@@ -1,4 +1,4 @@
-Test-Mock-AllTestsOk
+Test-Mock-Test
 
 This module mocks all typical test function from modules
 
@@ -27,21 +27,21 @@ SUPPORT AND DOCUMENTATION
 After installing, you can find documentation for this module with the
 perldoc command.
 
-    perldoc Test::Mock::AllTestsOk
+    perldoc Test::Mock::Test
 
 You can also look for information at:
 
     RT, CPAN's request tracker
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Mock-AllTestsOk
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Mock-Test
 
     AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/Test-Mock-AllTestsOk
+        http://annocpan.org/dist/Test-Mock-Test
 
     CPAN Ratings
-        http://cpanratings.perl.org/d/Test-Mock-AllTestsOk
+        http://cpanratings.perl.org/d/Test-Mock-Test
 
     Search CPAN
-        http://search.cpan.org/dist/Test-Mock-AllTestsOk/
+        http://search.cpan.org/dist/Test-Mock-Test/
 
 
 COPYRIGHT AND LICENCE
