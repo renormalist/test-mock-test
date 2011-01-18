@@ -7,6 +7,8 @@ author_requires 'Module::Install::AuthorTests';
 author_tests('xt');
 
 test_requires  'Test::More' => 0.88;
+test_requires  'Test::Deep';
+
 build_requires 'Test::More' => 0.88;
 
 auto_install;
